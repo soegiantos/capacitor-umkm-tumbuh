@@ -1,0 +1,58 @@
+name: Build APK debug
+
+# Membangun APK debug dari proyek Capacitor ini di mesin cloud GitHub.
+# APK-nya bisa diunduh dari tab Actions -> Artifacts.
+# Dipakai karena build Gradle tidak bisa berjalan di mesin pembuat proyek ini.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ambil kode
+        uses: actions/checkout@v4
+
+      - name: Pasang Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Pasang JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Pasang Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Pasang komponen SDK
+        run: |
+          yes | sdkmanager --licenses > /dev/null
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Pasang paket npm
+        run: npm install
+
+      - name: Hasilkan ikon dan splash Android
+        run: npx @capacitor/assets generate --android
+
+      - name: Sinkronkan Capacitor
+        run: npx cap sync android
+
+      - name: Build APK debug
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Unggah APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: umkm-tumbuh-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
