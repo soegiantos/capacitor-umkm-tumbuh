@@ -28,7 +28,15 @@ jobs:
           distribution: "temurin"
 
       - name: Pasang Android SDK
-        uses: android-actions/setup-android@v3
+        run: |
+          echo "ANDROID_HOME=$HOME/Android/Sdk" >> $GITHUB_ENV
+          mkdir -p "$HOME/Android/Sdk/cmdline-tools"
+          cd "$HOME/Android/Sdk/cmdline-tools"
+          curl -sL -o cmd.zip https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip
+          unzip -q -o cmd.zip
+          mv cmdline-tools latest
+          rm cmd.zip
+          echo "$HOME/Android/Sdk/cmdline-tools/latest/bin:$HOME/Android/Sdk/platform-tools" >> $GITHUB_PATH
 
       - name: Pasang komponen SDK
         run: |
