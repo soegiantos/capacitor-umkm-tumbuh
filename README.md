@@ -21,7 +21,7 @@ folder `www/` (halaman ini hanya cadangan; isi aplikasi tetap dari URL live).
 
 ## APK debug — untuk dibagikan langsung (sideload)
 
-APK debug **belum dibuat** di mesin ini. Perangkat build (JDK 17, Android SDK,
+APK debug **belum dibuat** di mesin ini. Perangkat build (JDK 21, Android SDK,
 Gradle 8.11.1) sudah terpasang di mesin ini, tetapi proses build Gradle tidak
 bisa berjalan di mesin ini karena komunikasi program Gradle (daemon) selalu
 gagal di mesin ini. Ini kendala mesin, bukan kendala proyek — proyeknya sudah
@@ -33,7 +33,7 @@ Cara mendapatkan APK (pilih salah satu):
    unggah proyek ini ke GitHub, lalu buka tab "Actions" di repositori — alur
    "Build APK debug" akan berjalan dan APK bisa diunduh dari hasilnya.
    (Lihat "Build lewat GitHub Actions" di bawah.)
-2. **Di komputer sendiri (Windows/Mac/Linux):** pasang JDK 17 + Android SDK,
+2. **Di komputer sendiri (Windows/Mac/Linux):** pasang JDK 21 + Android SDK,
    lalu jalankan perintah di "APK debug (uji coba / sideload)" di bawah.
 
 Setelah APK didapat:
@@ -72,7 +72,7 @@ Tanpa kedua akun berbayar ini, aplikasi tidak bisa masuk toko. Pembagian langsun
 ### Syarat
 
 - Node.js 20 atau lebih baru (sudah ada di mesin ini).
-- JDK 17.
+- JDK 21.
 - Android SDK (cmdline-tools, platform Android 35, build-tools 35.0.0).
 - Untuk iOS: Mac dengan Xcode.
 
@@ -89,7 +89,7 @@ npm install
 ### APK debug (uji coba / sideload)
 
 ```bash
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 export ANDROID_HOME=$HOME/Android/Sdk
 cd android
 ./gradlew assembleDebug
@@ -109,7 +109,7 @@ Caranya:
 4. Setelah selesai, unduh APK dari bagian **Artifacts** (nama
    `umkm-tumbuh-debug-apk`).
 
-Alur ini memakai mesin cloud GitHub (ubuntu-latest) yang memasang JDK 17 dan
+Alur ini memakai mesin cloud GitHub (ubuntu-latest) yang memasang JDK 21 dan
 Android SDK sendiri, jadi tidak butuh komputer dengan Android Studio.
 
 ### AAB rilis (untuk Play Store — menyusul)
